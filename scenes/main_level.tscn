@@ -2,6 +2,7 @@
 
 [ext_resource type="Script" path="res://scripts/camera/IsometricCamera.gd" id="1_tw4xm"]
 [ext_resource type="Script" path="res://scripts/Movable.gd" id="2_vpmt4"]
+[ext_resource type="PackedScene" uid="uid://ct2tm8hjgiah1" path="res://scenes/lighthouse.tscn" id="3_4w0dy"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_l750r"]
 sky_top_color = Color(0.384314, 0.454902, 0.54902, 1)
@@ -19,14 +20,12 @@ glow_enabled = true
 
 [sub_resource type="BoxMesh" id="BoxMesh_1c37x"]
 
-[sub_resource type="PlaneMesh" id="PlaneMesh_rjjtg"]
-
 [node name="MainLevel" type="Node3D"]
 
 [node name="Lightning" type="Node3D" parent="."]
 
 [node name="Sun" type="DirectionalLight3D" parent="Lightning"]
-transform = Transform3D(0.927184, -0.312739, 0.206214, 0, 0.550481, 0.834848, -0.374607, -0.774057, 0.510397, 15, 20, 15)
+transform = Transform3D(0.927184, -0.31274, 0.206214, 0, 0.550481, 0.834848, -0.374607, -0.774057, 0.510397, 15, 20, 15)
 light_color = Color(1, 0.984314, 0.956863, 1)
 shadow_enabled = true
 
@@ -41,12 +40,13 @@ script = ExtResource("1_tw4xm")
 transform = Transform3D(1, 0, 0, 0, 1, 2.98023e-08, 0, -5.96046e-08, 1, 0.0257607, 0.0209341, -0.0362587)
 
 [node name="Movable" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 5.13032)
 script = ExtResource("2_vpmt4")
 
 [node name="Cube" type="MeshInstance3D" parent="Movable"]
 mesh = SubResource("BoxMesh_1c37x")
 skeleton = NodePath("../..")
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.227015, 0)
-mesh = SubResource("PlaneMesh_rjjtg")
+[node name="Scene" type="Node3D" parent="."]
+
+[node name="Lighthouse" parent="Scene" instance=ExtResource("3_4w0dy")]

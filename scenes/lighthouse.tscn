@@ -1,0 +1,22 @@
+[gd_scene load_steps=3 format=3 uid="uid://ct2tm8hjgiah1"]
+
+[ext_resource type="Script" path="res://scripts/lighthouse.gd" id="1_1h30j"]
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_7ierw"]
+
+[node name="Lighthouse" type="Node3D"]
+script = ExtResource("1_1h30j")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+transform = Transform3D(2.061, 0, 0, 0, 5, 0, 0, 0, 2.089, 0, 2.87751, 0)
+mesh = SubResource("CylinderMesh_7ierw")
+
+[node name="Lightbulb" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 8.67368, 0)
+
+[node name="SpotLight3D" type="SpotLight3D" parent="Lightbulb"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.727742, 0)
+light_color = Color(1, 0, 0, 1)
+light_energy = 16.0
+spot_range = 50.0
+spot_angle = 9.0
