@@ -1,7 +1,21 @@
-[gd_scene load_steps=5 format=3 uid="uid://08s3sa3k2w10"]
+[gd_scene load_steps=8 format=3 uid="uid://08s3sa3k2w10"]
 
 [ext_resource type="Script" path="res://scripts/camera/IsometricCamera.gd" id="1_tw4xm"]
 [ext_resource type="Script" path="res://scripts/Movable.gd" id="2_vpmt4"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_l750r"]
+sky_top_color = Color(0.384314, 0.454902, 0.54902, 1)
+sky_horizon_color = Color(0.646078, 0.655975, 0.670505, 1)
+ground_horizon_color = Color(0.646078, 0.655975, 0.670505, 1)
+
+[sub_resource type="Sky" id="Sky_iemr3"]
+sky_material = SubResource("ProceduralSkyMaterial_l750r")
+
+[sub_resource type="Environment" id="Environment_e1k05"]
+background_mode = 2
+sky = SubResource("Sky_iemr3")
+tonemap_mode = 2
+glow_enabled = true
 
 [sub_resource type="BoxMesh" id="BoxMesh_1c37x"]
 
@@ -9,9 +23,15 @@
 
 [node name="MainLevel" type="Node3D"]
 
-[node name="Sun" type="DirectionalLight3D" parent="."]
-transform = Transform3D(0.638257, -3.365e-08, 0.769823, -0.769823, -2.78991e-08, 0.638257, 0, -1, -4.37114e-08, 80.3127, 57.2786, 10.3192)
-light_color = Color(0.839216, 0.913725, 0.956863, 1)
+[node name="Lightning" type="Node3D" parent="."]
+
+[node name="Sun" type="DirectionalLight3D" parent="Lightning"]
+transform = Transform3D(0.927184, -0.312739, 0.206214, 0, 0.550481, 0.834848, -0.374607, -0.774057, 0.510397, 15, 20, 15)
+light_color = Color(1, 0.984314, 0.956863, 1)
+shadow_enabled = true
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="Lightning"]
+environment = SubResource("Environment_e1k05")
 
 [node name="IsometricCamera" type="Node3D" parent="."]
 transform = Transform3D(0.707107, -0.353553, 0.612372, 0, 0.866025, 0.5, -0.707107, -0.353553, 0.612372, 15, 15, 15)
