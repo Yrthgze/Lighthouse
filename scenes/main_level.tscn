@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3 uid="uid://08s3sa3k2w10"]
+[gd_scene load_steps=9 format=3 uid="uid://08s3sa3k2w10"]
 
 [ext_resource type="Script" path="res://scripts/camera/IsometricCamera.gd" id="1_tw4xm"]
 [ext_resource type="Script" path="res://scripts/Movable.gd" id="2_vpmt4"]
@@ -17,8 +17,14 @@ background_mode = 2
 sky = SubResource("Sky_iemr3")
 tonemap_mode = 2
 glow_enabled = true
+volumetric_fog_enabled = true
 
 [sub_resource type="BoxMesh" id="BoxMesh_1c37x"]
+
+[sub_resource type="FogMaterial" id="FogMaterial_cmcla"]
+density = 0.3
+albedo = Color(0, 0.239216, 0.388235, 1)
+height_falloff = 0.287175
 
 [node name="MainLevel" type="Node3D"]
 
@@ -50,3 +56,9 @@ skeleton = NodePath("../..")
 [node name="Scene" type="Node3D" parent="."]
 
 [node name="Lighthouse" parent="Scene" instance=ExtResource("3_4w0dy")]
+
+[node name="Fog" type="Node3D" parent="."]
+
+[node name="FogVolume" type="FogVolume" parent="Fog"]
+size = Vector3(20, 20, 20)
+material = SubResource("FogMaterial_cmcla")
