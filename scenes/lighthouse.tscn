@@ -16,7 +16,6 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 8.67368, 0)
 
 [node name="SpotLight3D" type="SpotLight3D" parent="Lightbulb"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.727742, 0)
-light_color = Color(1, 0, 0, 1)
 light_energy = 16.0
 light_volumetric_fog_energy = 10.0
 distance_fade_enabled = true

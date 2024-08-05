@@ -1,0 +1,60 @@
+[gd_scene load_steps=6 format=3 uid="uid://dy8qwi6suw4vk"]
+
+[ext_resource type="PackedScene" uid="uid://dvx0hulh7ava8" path="res://models/enemies/low_poly_tentacle.glb" id="1_ptjv2"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_dw1o4"]
+size = Vector3(140, 140, 140)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_jpwfj"]
+size = Vector3(100, 100, 100)
+
+[sub_resource type="Animation" id="Animation_updak"]
+resource_name = "new_animation"
+loop_mode = 2
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sketchfab_Scene/Skeleton3D/PhysicalBone3D:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(),
+"transitions": PackedFloat32Array(),
+"update": 0,
+"values": []
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_d4bh3"]
+_data = {
+"new_animation": SubResource("Animation_updak")
+}
+
+[node name="Tentacle" type="Node3D"]
+transform = Transform3D(0.03, 0, 0, 0, 0.03, 0, 0, 0, 0.03, 0, 0, 0)
+
+[node name="Sketchfab_Scene" parent="." instance=ExtResource("1_ptjv2")]
+transform = Transform3D(0.4, 0, 0, 0, 0.7, 0, 0, 0, 0.4, 0, -54.182, 0)
+
+[node name="Skeleton3D" type="Skeleton3D" parent="Sketchfab_Scene"]
+
+[node name="PhysicalBone3D" type="PhysicalBone3D" parent="Sketchfab_Scene/Skeleton3D"]
+transform = Transform3D(0.999982, 0, 0, 0, 1.00001, 0, 0, 0, 0.999982, 0, 0, 0)
+body_offset = Transform3D(0.999982, 0, 0, 0, 1.00001, 0, 0, 0, 0.999982, 0, 0, 0)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Sketchfab_Scene/Skeleton3D/PhysicalBone3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -7.62995, 140.692, 15.4965)
+shape = SubResource("BoxShape3D_dw1o4")
+
+[node name="PhysicalBone3D2" type="PhysicalBone3D" parent="Sketchfab_Scene/Skeleton3D"]
+transform = Transform3D(0.999997, 0, 0, 0, 1.00001, 0, 0, 0, 0.999997, 0, 142.912, -44.0851)
+joint_offset = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -142.911, 44.0853)
+body_offset = Transform3D(0.999997, 0, 0, 0, 1.00001, 0, 0, 0, 0.999997, 0, 142.912, -44.0851)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Sketchfab_Scene/Skeleton3D/PhysicalBone3D2"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -7.62995, 140.692, 15.4965)
+shape = SubResource("BoxShape3D_jpwfj")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_d4bh3")
+}

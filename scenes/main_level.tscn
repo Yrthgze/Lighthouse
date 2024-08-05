@@ -1,8 +1,14 @@
-[gd_scene load_steps=9 format=3 uid="uid://08s3sa3k2w10"]
+[gd_scene load_steps=10 format=3 uid="uid://08s3sa3k2w10"]
 
 [ext_resource type="Script" path="res://scripts/camera/IsometricCamera.gd" id="1_tw4xm"]
 [ext_resource type="Script" path="res://scripts/Movable.gd" id="2_vpmt4"]
 [ext_resource type="PackedScene" uid="uid://ct2tm8hjgiah1" path="res://scenes/lighthouse.tscn" id="3_4w0dy"]
+[ext_resource type="PackedScene" uid="uid://dy8qwi6suw4vk" path="res://scenes/enemies/tentacle.tscn" id="4_mwp3c"]
+
+[sub_resource type="FogMaterial" id="FogMaterial_cmcla"]
+density = 0.3
+albedo = Color(0, 0.239216, 0.388235, 1)
+height_falloff = 0.287175
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_l750r"]
 sky_top_color = Color(0.384314, 0.454902, 0.54902, 1)
@@ -21,14 +27,15 @@ volumetric_fog_enabled = true
 
 [sub_resource type="BoxMesh" id="BoxMesh_1c37x"]
 
-[sub_resource type="FogMaterial" id="FogMaterial_cmcla"]
-density = 0.3
-albedo = Color(0, 0.239216, 0.388235, 1)
-height_falloff = 0.287175
-
 [node name="MainLevel" type="Node3D"]
 
 [node name="Lightning" type="Node3D" parent="."]
+
+[node name="Fog" type="Node3D" parent="Lightning"]
+
+[node name="FogVolume" type="FogVolume" parent="Lightning/Fog"]
+size = Vector3(20, 20, 20)
+material = SubResource("FogMaterial_cmcla")
 
 [node name="Sun" type="DirectionalLight3D" parent="Lightning"]
 transform = Transform3D(0.927184, -0.31274, 0.206214, 0, 0.550481, 0.834848, -0.374607, -0.774057, 0.510397, 15, 20, 15)
@@ -57,8 +64,5 @@ skeleton = NodePath("../..")
 
 [node name="Lighthouse" parent="Scene" instance=ExtResource("3_4w0dy")]
 
-[node name="Fog" type="Node3D" parent="."]
-
-[node name="FogVolume" type="FogVolume" parent="Fog"]
-size = Vector3(20, 20, 20)
-material = SubResource("FogMaterial_cmcla")
+[node name="Tentacle" parent="." instance=ExtResource("4_mwp3c")]
+transform = Transform3D(-0.00125365, 0, -0.0299738, 0, 0.03, 0, 0.0299738, 0, -0.00125365, 12.4066, 0, 0)
