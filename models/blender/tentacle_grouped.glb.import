@@ -3,13 +3,13 @@
 importer="scene"
 importer_version=1
 type="PackedScene"
-uid="uid://dvx0hulh7ava8"
-path="res://.godot/imported/low_poly_tentacle.glb-3653b91ba09bc2681155e39745631687.scn"
+uid="uid://6rj6wwtikdnw"
+path="res://.godot/imported/tentacle_grouped.glb-1d9490bcec50295665b8bef7769bf1cc.scn"
 
 [deps]
 
-source_file="res://models/enemies/low_poly_tentacle.glb"
-dest_files=["res://.godot/imported/low_poly_tentacle.glb-3653b91ba09bc2681155e39745631687.scn"]
+source_file="res://models/blender/tentacle_grouped.glb"
+dest_files=["res://.godot/imported/tentacle_grouped.glb-1d9490bcec50295665b8bef7769bf1cc.scn"]
 
 [params]
 

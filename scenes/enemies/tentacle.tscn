@@ -47,7 +47,7 @@ shape = SubResource("BoxShape3D_dw1o4")
 
 [node name="PhysicalBone3D2" type="PhysicalBone3D" parent="Sketchfab_Scene/Skeleton3D"]
 transform = Transform3D(0.999997, 0, 0, 0, 1.00001, 0, 0, 0, 0.999997, 0, 142.912, -44.0851)
-joint_offset = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -142.911, 44.0853)
+joint_offset = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -142.911, 44.0852)
 body_offset = Transform3D(0.999997, 0, 0, 0, 1.00001, 0, 0, 0, 0.999997, 0, 142.912, -44.0851)
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Sketchfab_Scene/Skeleton3D/PhysicalBone3D2"]
