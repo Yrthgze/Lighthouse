@@ -18,6 +18,7 @@ func generate_random_position_around_target(radius: float) -> Vector3:
 
 func spawn_tentacle(spawn_position: Vector3):
 	var tentacle_instance = TentacleScene.instantiate()
+	tentacle_instance.set_target($Movable)
 	tentacle_instance.global_transform.origin = spawn_position
 	add_child(tentacle_instance)
 
