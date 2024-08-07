@@ -1,9 +1,9 @@
 [gd_scene load_steps=10 format=3 uid="uid://08s3sa3k2w10"]
 
+[ext_resource type="Script" path="res://scripts/main_level.gd" id="1_tjt8x"]
 [ext_resource type="Script" path="res://scripts/camera/IsometricCamera.gd" id="1_tw4xm"]
 [ext_resource type="Script" path="res://scripts/Movable.gd" id="2_vpmt4"]
 [ext_resource type="PackedScene" uid="uid://ct2tm8hjgiah1" path="res://scenes/lighthouse.tscn" id="3_4w0dy"]
-[ext_resource type="PackedScene" uid="uid://cr66k0apkbo8o" path="res://models/blender/new_tentacle_grouped.glb" id="4_uktra"]
 
 [sub_resource type="FogMaterial" id="FogMaterial_cmcla"]
 density = 0.3
@@ -28,6 +28,7 @@ volumetric_fog_enabled = true
 [sub_resource type="BoxMesh" id="BoxMesh_1c37x"]
 
 [node name="MainLevel" type="Node3D"]
+script = ExtResource("1_tjt8x")
 
 [node name="Lightning" type="Node3D" parent="."]
 
@@ -63,6 +64,3 @@ skeleton = NodePath("../..")
 [node name="Scene" type="Node3D" parent="."]
 
 [node name="Lighthouse" parent="Scene" instance=ExtResource("3_4w0dy")]
-
-[node name="new_tentacle_grouped" parent="." instance=ExtResource("4_uktra")]
-transform = Transform3D(-0.263536, 0, 0.964649, 0, 1, 0, -0.964649, 0, -0.263536, 57.1709, -6.64991, 4.70562)
