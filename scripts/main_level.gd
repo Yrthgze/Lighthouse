@@ -16,22 +16,17 @@ func generate_random_position_around_target(radius: float) -> Vector3:
 	)
 	return target_position + random_offset
 
-func spawn_tentacle(position: Vector3):
+func spawn_tentacle(spawn_position: Vector3):
 	var tentacle_instance = TentacleScene.instantiate()
-	tentacle_instance.get_node("tentacle_grouped/Armature/Skeleton3D/Tentacle").scale = Vector3(0.1,0.1,0.1)
-	tentacle_instance.global_transform.origin = position
+	tentacle_instance.global_transform.origin = spawn_position
 	add_child(tentacle_instance)
-	
-	# Activar la animación 'idle'
-	var anim_player = tentacle_instance.get_node("tentacle_grouped/AnimationPlayer")
 
-	anim_player.play("Idle")
 
 func spawn_multiple_tentacles(count: int, radius: float):
 	for i in range(count):
-		var position = generate_random_position_around_target(radius)
-		spawn_tentacle(position)
+		var spawn_position = generate_random_position_around_target(radius)
+		spawn_tentacle(spawn_position)
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta):
+func _process(_delta):
 	pass
