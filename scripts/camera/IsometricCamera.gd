@@ -13,7 +13,7 @@ func _ready():
 	target = $"../Movable"
 
 func _process(delta: float) -> void:
-	if target:
+	if target != null:
 		# Actualiza el ángulo según la entrada del usuario
 		angle += Input.get_action_strength("rotate_left") * rotation_speed * delta
 		angle -= Input.get_action_strength("rotate_right") * rotation_speed * delta

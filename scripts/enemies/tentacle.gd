@@ -6,6 +6,10 @@ var in_attack_range:bool
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	in_attack_range = false
+	attacking_timer = Timer.new()
+	add_child(attacking_timer)
+	attacking_timer.set_wait_time(0.5)
+	attacking_timer.connect("timeout", _on_attack_timeout)
 	$".".scale = Vector3(0.1,0.1,0.1)
 	$tentacle_grouped/AnimationPlayer.play("Idle")
 	anim_player = $tentacle_grouped/AnimationPlayer
@@ -14,17 +18,23 @@ func _ready():
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
-	move_towards_target_pos(delta, target.position)
-	in_attack_range = is_in_attack_range()
-	if is_attacking and not in_attack_range:
-		stop_attack()
-	if not is_attacking and in_attack_range:
-		start_attack()
+	if target != null:
+		move_towards_target_pos(delta, target.position)
+		in_attack_range = is_in_attack_range()
+		if is_attacking and not in_attack_range:
+			stop_attack()
+		elif not is_attacking and in_attack_range:
+			start_attack()
 	
 func move_towards_target_pos(delta: float, target_position):
-	super.move_towards_target_pos(delta, target_position)
-	# Rotates the tentacle to look at position
+	if not is_attacking:
+		super.move_towards_target_pos(delta, target_position)
+		# Rotates the tentacle to look at position
 	look_at(target_position, Vector3.UP)
+
+func _on_attack_timeout() -> void:
+	print("Attacking again")
+	apply_damage_to_target()
 
 func attack_animation():
 	print("Attack animation")

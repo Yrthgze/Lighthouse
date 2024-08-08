@@ -1,6 +1,4 @@
-extends Node3D
-
-@export var move_speed: float = 5.0
+extends Character
 
 func _process(delta: float) -> void:
 	var direction = Vector3.ZERO
