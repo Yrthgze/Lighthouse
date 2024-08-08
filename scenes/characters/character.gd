@@ -26,10 +26,10 @@ func reduce_health(amount: int) -> int:
 
 func destroy_character():
 	print("Character destroyed")
-	queue_free()  # Elimina el nodo del faro o puedes desencadenar una animación de destrucción
+	queue_free()  # Delete the character
 
 func move_towards_target_pos(delta: float, target_position):
-	# Mueve el tentáculo hacia el objetivo
+	# Move the character towards the target
 	var direction = (target_position - global_transform.origin).normalized()
 	global_transform.origin += direction * move_speed * delta
 
