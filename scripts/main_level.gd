@@ -6,7 +6,7 @@ var target_position: Vector3
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	target_position = $Scene/Lighthouse.global_transform.origin
-	spawn_multiple_tentacles(1, 20.0) 
+	spawn_multiple_tentacles(8, 20.0) 
 
 func generate_random_position_around_target(radius: float) -> Vector3:
 	var random_offset = Vector3(
