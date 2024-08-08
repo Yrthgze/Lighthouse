@@ -1,8 +1,7 @@
-extends Node3D
-
+extends "res://scenes/characters/character.gd"
 
 @export var rotation_speed: float = 90.0 # Velocidad de rotación en grados por segundo
-
+	
 func _process(delta: float) -> void:
 	var rotation_amount = 0.0
 
