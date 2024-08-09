@@ -1,7 +1,11 @@
 extends "res://scenes/characters/character.gd"
 
 @export var rotation_speed: float = 90.0 # Rotation speed
-	
+var lighthouse_lamp:SpotLight3D
+
+func _ready():
+	lighthouse_lamp = %LighthouseLamp
+
 func _process(delta: float) -> void:
 	var rotation_amount = 0.0
 
@@ -12,4 +16,4 @@ func _process(delta: float) -> void:
 		rotation_amount += rotation_speed * delta
 
 	# Rotate the Lighthouse
-	$Lightbulb/SpotLight3D.rotate_y(rotation_amount * deg_to_rad(1))
+	lighthouse_lamp.rotate_y(rotation_amount * deg_to_rad(1))

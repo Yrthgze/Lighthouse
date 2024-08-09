@@ -11,8 +11,8 @@ func _ready():
 	attacking_timer.set_wait_time(0.5)
 	attacking_timer.connect("timeout", _on_attack_timeout)
 	$".".scale = Vector3(0.1,0.1,0.1)
-	$tentacle_grouped/AnimationPlayer.play("Idle")
-	anim_player = $tentacle_grouped/AnimationPlayer
+	anim_player = %TentacleAnimation
+	anim_player.play("Idle")
 	#TODO particles = $tentacle_grouped/Particles
 	#TODO audio_stream = $tentacle_grouped/AudioStream
 

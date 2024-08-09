@@ -65,4 +65,5 @@ skeleton = NodePath("../..")
 [node name="Scene" type="Node3D" parent="."]
 
 [node name="Lighthouse" parent="Scene" instance=ExtResource("3_4w0dy")]
+unique_name_in_owner = true
 move_speed = 0.0

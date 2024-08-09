@@ -178,7 +178,8 @@ bones/4/scale = Vector3(1, 1, 1)
 mesh = SubResource("ArrayMesh_kqobk")
 skin = SubResource("Skin_a0k3a")
 
-[node name="AnimationPlayer" type="AnimationPlayer" parent="tentacle_grouped"]
+[node name="TentacleAnimation" type="AnimationPlayer" parent="tentacle_grouped"]
+unique_name_in_owner = true
 libraries = {
 "": SubResource("AnimationLibrary_3xyfm")
 }

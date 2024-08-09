@@ -2,10 +2,13 @@ extends Node3D
 
 class_name Character
 
+@export_group("Character Stats")
 @export var health: int = 100
 @export var move_speed: float = 0.5
 @export var attack_damage: int = 10
 @export var attack_range: float = 2.0
+@export var resistance: float = 0.0
+
 var target: Node3D
 var is_attacking: bool = false
 var attacking_timer:Timer
