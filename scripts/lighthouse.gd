@@ -1,10 +1,7 @@
 extends "res://scenes/characters/character.gd"
 
 @export var rotation_speed: float = 90.0 # Rotation speed
-var lighthouse_lamp:SpotLight3D
-
-func _ready():
-	lighthouse_lamp = %LighthouseLamp
+@onready var lighthouse_lamp:SpotLight3D = %LighthouseLamp
 
 func _process(delta: float) -> void:
 	var rotation_amount = 0.0

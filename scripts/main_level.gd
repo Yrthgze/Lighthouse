@@ -2,11 +2,10 @@ extends Node3D
 
 var TentacleScene = preload("res://scenes/characters/enemies/tentacle.tscn")
 var target_position: Vector3
-var lighthouse: Node3D
+@onready var lighthouse: Node3D = %Lighthouse
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	lighthouse = %Lighthouse
 	target_position = lighthouse.global_transform.origin
 	spawn_multiple_tentacles(8, 20.0) 
 
