@@ -5,6 +5,7 @@ class_name Character
 @export_group("Character Stats")
 @export var health: int = 100
 @export var move_speed: float = 0.5
+@export var rotation_speed : float = 2.0
 @export var attack_damage: int = 10
 @export var attack_range: float = 2.0
 @export var resistance: float = 0.0

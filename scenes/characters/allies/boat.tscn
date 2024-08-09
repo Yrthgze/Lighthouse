@@ -1,0 +1,28 @@
+[gd_scene load_steps=5 format=3 uid="uid://c5nqn6s5juyvt"]
+
+[ext_resource type="Script" path="res://scripts/allies/boat.gd" id="1_4ct1o"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_y87av"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_4o61p"]
+
+[sub_resource type="Curve3D" id="Curve3D_gnfw7"]
+
+[node name="Boat" type="Node3D"]
+
+[node name="CharacterBody3D" type="CharacterBody3D" parent="."]
+script = ExtResource("1_4ct1o")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="CharacterBody3D"]
+mesh = SubResource("BoxMesh_y87av")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="CharacterBody3D"]
+shape = SubResource("BoxShape3D_4o61p")
+
+[node name="NavigationPath" type="Path3D" parent="."]
+unique_name_in_owner = true
+curve = SubResource("Curve3D_gnfw7")
+
+[node name="NavigationPathFollower" type="PathFollow3D" parent="NavigationPath"]
+unique_name_in_owner = true
+metadata/_edit_group_ = true
