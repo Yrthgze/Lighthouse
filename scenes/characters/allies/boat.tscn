@@ -1,6 +1,7 @@
-[gd_scene load_steps=5 format=3 uid="uid://c5nqn6s5juyvt"]
+[gd_scene load_steps=6 format=3 uid="uid://c5nqn6s5juyvt"]
 
 [ext_resource type="Script" path="res://scripts/allies/boat.gd" id="1_4ct1o"]
+[ext_resource type="Script" path="res://scripts/test/UTBoat.gd" id="2_w2p3k"]
 
 [sub_resource type="BoxMesh" id="BoxMesh_y87av"]
 
@@ -27,3 +28,6 @@ curve = SubResource("Curve3D_gnfw7")
 [node name="NavigationPathFollower" type="PathFollow3D" parent="NavigationPath"]
 unique_name_in_owner = true
 metadata/_edit_group_ = true
+
+[node name="UTBoat" type="Node" parent="."]
+script = ExtResource("2_w2p3k")
