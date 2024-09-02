@@ -28,10 +28,17 @@ func get_turn_direction_point(start_pos: Vector3,target_pos: Vector3) -> Vector3
 	var direction_vector = target_pos - start_pos
 	# Make sure the y axis doesnt influence the calculus
 	direction_vector.y = 0
+	# Producto cruzado para determinar si el objetivo está a la izquierda o derecha
+	var lookin_at = -transform.basis.z
+	var direction_vec_from_lookin_point = (target_pos - lookin_at).abs()
+	var direction = 1
+	if direction_vec_from_lookin_point.x < direction_vec_from_lookin_point.z:
+		direction = -1
+	
 	var mid_point = (start_pos + target_pos) / 2
 	# Get the normal to direction vector
 	var normal = Vector3(direction_vector.z, 0, -direction_vector.x).normalized()
-	mid_point += normal * rotation_speed
+	mid_point += direction * normal * rotation_speed
 	return mid_point
 
 # Para cambiar la curva dinámicamente
