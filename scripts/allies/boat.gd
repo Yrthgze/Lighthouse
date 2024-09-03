@@ -3,7 +3,7 @@ extends CharacterBody3D
 var speed : float = 300.0
 @onready var nav_path: Path3D = %NavigationPath
 @onready var nav_path_follower: PathFollow3D = %NavigationPathFollower
-var rotation_speed = 2.0
+var rotation_speed = 1.0
 
 func _ready():
 	nav_path_follower.progress = 0.0
@@ -37,7 +37,9 @@ func get_turn_direction_point(start_pos: Vector3,target_pos: Vector3) -> Vector3
 	
 	var mid_point = (start_pos + target_pos) / 2
 	# Get the normal to direction vector
-	var normal = Vector3(direction_vector.z, 0, -direction_vector.x).normalized()
+	var normal = Vector3(direction_vector.z, 0, -direction_vector.x)
+	normal.x /= abs(normal.x)
+	normal.z /= abs(normal.z)
 	mid_point += direction * normal * rotation_speed
 	return mid_point
 
