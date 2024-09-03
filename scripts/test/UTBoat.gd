@@ -1,7 +1,6 @@
 extends Node
 
 func _ready():
-	# Ejecutar las pruebas al iniciar la escena
 	run_tests()
 
 func run_tests():
