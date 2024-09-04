@@ -1,10 +1,14 @@
 extends CharacterBody3D
 
-var speed : float = 50.0
+var current_speed = 0.0 
 @onready var nav_path: Path3D = %NavigationPath
 @onready var nav_path_follower: PathFollow3D = %NavigationPathFollower
 var rotation_speed = 1.0
 var is_moving: bool = false
+# Variables de configuración
+var max_speed = 10.0  # Velocidad máxima en unidades por segundo
+var acceleration_duration = 2.0  # Duración en segundos para alcanzar la velocidad máxima
+var deceleration_distance = 5.0  # Distancia desde el final de la curva donde comenzará a desacelerar
 
 func _ready():
 	nav_path_follower.progress = 0.0
@@ -12,15 +16,30 @@ func _ready():
 
 func _process(delta):
 	if is_moving:
+		var progress_ratio = nav_path_follower.progress_ratio
+		var distance_to_end = 1.0 - progress_ratio
+		 # Aceleración suave al principio
+		if progress_ratio < (acceleration_duration * max_speed):
+			# Ease-in al inicio
+			var acceleration_ratio = progress_ratio / (acceleration_duration / nav_path.curve.get_baked_length())
+			current_speed = lerp(0.0, max_speed, acceleration_ratio)
+		# Desaceleración suave al final
+		elif distance_to_end < deceleration_distance:
+			# Ease-out al final
+			current_speed = lerp(0.0, max_speed, distance_to_end / deceleration_distance)
+		else:
+			# Mantener la velocidad máxima
+			current_speed = max_speed
 		# Avanzar a lo largo de la curva
-		nav_path_follower.progress_ratio += speed * delta * 0.01
+		nav_path_follower.progress_ratio += current_speed * delta * 0.01
 		global_transform.origin = nav_path_follower.global_transform.origin
 
 		look_at(nav_path_follower.global_transform.origin + nav_path_follower.transform.basis.z, Vector3.UP)
 		
-		if nav_path_follower.progress_ratio >= 0.9:
+		if progress_ratio >= 0.9:
 			nav_path_follower.progress_ratio = 1.0
 			is_moving = false
+
 
 func get_turn_direction_point(start_pos: Vector3,target_pos: Vector3) -> Vector3:
 	var direction_vector = target_pos - start_pos
