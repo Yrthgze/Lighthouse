@@ -1,5 +1,7 @@
 extends CharacterBody3D
 
+enum DIRECTION {LEFT = -1, RIGHT = 1}
+
 var current_speed = 0.0 
 @onready var nav_path: Path3D = %NavigationPath
 @onready var nav_path_follower: PathFollow3D = %NavigationPathFollower
@@ -16,36 +18,22 @@ func _ready():
 	nav_path_follower.progress = 0.0
 	set_target_position(Vector3(50,0, 50))
 
+
 func _process(delta):
 	if is_moving:
-		var progress_ratio = nav_path_follower.progress_ratio
-		current_speed = get_current_speed(progress_ratio)
-		print(current_speed)
-		# Avanzar a lo largo de la curva
-		nav_path_follower.progress_ratio += current_speed * delta * 0.01
-		global_transform.origin = nav_path_follower.global_transform.origin
-
-		look_at(nav_path_follower.global_transform.origin + nav_path_follower.transform.basis.z, Vector3.UP)
-
-		if progress_ratio >= 0.9:
-			nav_path_follower.progress_ratio = 1.0
-			is_moving = false
-			current_speed = 0
+		move(delta)
 
 func get_current_acceleration(progress_ratio: float) -> float:
 	var elapsed_time = (Time.get_ticks_msec() / 1000.0) - start_time
 	var distance_to_end = 1.0 - progress_ratio
 	# Ease-in at first
 	if elapsed_time < acceleration_duration:
-		print("accelerating")
 		acceleration_ratio = elapsed_time / acceleration_duration
 	# Ease-in at end
 	elif distance_to_end < deceleration_progress:
-		print("deccelerating")
 		acceleration_ratio = distance_to_end / deceleration_progress
 	# Max speed otherwise
 	else:
-		print("max-speed")
 		acceleration_ratio = 1.0
 	return acceleration_ratio
 
@@ -53,16 +41,32 @@ func get_current_speed(progress_ratio: float) -> float:
 	var current_acceleration = get_current_acceleration(progress_ratio)
 	return lerp(0.0, max_speed, current_acceleration)
 
+func move(delta):
+	var progress_ratio = nav_path_follower.progress_ratio
+	current_speed = get_current_speed(progress_ratio)
+	# Advance in the curve
+	nav_path_follower.progress_ratio += current_speed * delta * 0.01
+	global_transform.origin = nav_path_follower.global_transform.origin
+
+	look_at(nav_path_follower.global_transform.origin + nav_path_follower.transform.basis.z, Vector3.UP)
+
+	if progress_ratio >= 0.9:
+		nav_path_follower.progress_ratio = 1.0
+		is_moving = false
+		current_speed = 0
+		
+func get_target_direction(target_pos: Vector3) -> DIRECTION:
+	# Get looking at
+	var lookin_at = -transform.basis.z
+	var direction_vec_from_lookin_point = (target_pos - lookin_at).abs()
+	var direction = DIRECTION.RIGHT if direction_vec_from_lookin_point.x >= direction_vec_from_lookin_point.z else DIRECTION.LEFT
+	return direction
+
 func get_turn_direction_point(start_pos: Vector3,target_pos: Vector3) -> Vector3:
 	var direction_vector = target_pos - start_pos
 	# Make sure the y axis doesnt influence the calculus
 	direction_vector.y = 0
-	# Producto cruzado para determinar si el objetivo está a la izquierda o derecha
-	var lookin_at = -transform.basis.z
-	var direction_vec_from_lookin_point = (target_pos - lookin_at).abs()
-	var direction = 1 if direction_vec_from_lookin_point.x >= direction_vec_from_lookin_point.z else -1
-
-	
+	var direction = get_target_direction(target_pos)
 	var mid_point = (start_pos + target_pos) / 2
 	# Get the normal to direction vector
 	var normal = Vector3(direction_vector.z, 0, -direction_vector.x)
