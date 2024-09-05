@@ -4,7 +4,8 @@
 [ext_resource type="PackedScene" uid="uid://148wmnt6bnt5" path="res://models/external/Sail Boat.glb" id="2_63us4"]
 [ext_resource type="Script" path="res://scripts/test/UTBoat.gd" id="2_w2p3k"]
 
-[sub_resource type="BoxShape3D" id="BoxShape3D_4o61p"]
+[sub_resource type="BoxShape3D" id="BoxShape3D_kof5x"]
+size = Vector3(3.5431, 6.47425, 8.29735)
 
 [sub_resource type="Curve3D" id="Curve3D_gnfw7"]
 bake_interval = 60.0
@@ -18,7 +19,8 @@ script = ExtResource("1_4ct1o")
 transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, 0, 0, 0)
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="CharacterBody3D"]
-shape = SubResource("BoxShape3D_4o61p")
+transform = Transform3D(0.207026, 0, 0, 0, 0.207026, 0, 0, 0, 0.207026, -0.0258088, 0.623294, 0.00735962)
+shape = SubResource("BoxShape3D_kof5x")
 
 [node name="NavigationPath" type="Path3D" parent="."]
 unique_name_in_owner = true
