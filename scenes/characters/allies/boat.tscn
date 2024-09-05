@@ -1,9 +1,8 @@
 [gd_scene load_steps=6 format=3 uid="uid://c5nqn6s5juyvt"]
 
 [ext_resource type="Script" path="res://scripts/allies/boat.gd" id="1_4ct1o"]
+[ext_resource type="PackedScene" uid="uid://148wmnt6bnt5" path="res://models/external/Sail Boat.glb" id="2_63us4"]
 [ext_resource type="Script" path="res://scripts/test/UTBoat.gd" id="2_w2p3k"]
-
-[sub_resource type="BoxMesh" id="BoxMesh_y87av"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_4o61p"]
 
@@ -15,8 +14,8 @@ bake_interval = 60.0
 [node name="CharacterBody3D" type="CharacterBody3D" parent="."]
 script = ExtResource("1_4ct1o")
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="CharacterBody3D"]
-mesh = SubResource("BoxMesh_y87av")
+[node name="Root Scene" parent="CharacterBody3D" instance=ExtResource("2_63us4")]
+transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, 0, 0, 0)
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="CharacterBody3D"]
 shape = SubResource("BoxShape3D_4o61p")

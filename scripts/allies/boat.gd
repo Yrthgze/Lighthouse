@@ -8,7 +8,7 @@ var current_speed = 0.0
 var rotation_speed = 1.0
 var is_moving: bool = false
 # Variables de configuración
-var max_speed = 10.0  # Velocidad máxima en unidades por segundo
+var max_speed = 3.0  # Velocidad máxima en unidades por segundo
 var acceleration_duration = 4.0  # Duración en segundos para alcanzar la velocidad máxima
 var deceleration_progress = 0.5  # Distancia desde el final de la curva donde comenzará a desacelerar
 var start_time = 0.0  # Tiempo de inicio del movimiento
