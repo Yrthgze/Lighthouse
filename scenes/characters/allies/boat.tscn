@@ -11,9 +11,9 @@ size = Vector3(3.5431, 6.47425, 8.29735)
 bake_interval = 60.0
 
 [node name="Boat" type="Node3D"]
+script = ExtResource("1_4ct1o")
 
 [node name="CharacterBody3D" type="CharacterBody3D" parent="."]
-script = ExtResource("1_4ct1o")
 
 [node name="Root Scene" parent="CharacterBody3D" instance=ExtResource("2_63us4")]
 transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, 0, 0, 0)
