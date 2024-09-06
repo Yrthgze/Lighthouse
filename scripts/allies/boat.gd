@@ -30,8 +30,8 @@ func get_current_acceleration(progress_ratio: float) -> float:
 	if elapsed_time < acceleration_duration:
 		acceleration_ratio = elapsed_time / acceleration_duration
 	# Ease-in at end
-	elif distance_to_end < deceleration_progress:
-		acceleration_ratio = distance_to_end / deceleration_progress
+	# elif distance_to_end < deceleration_progress:
+	# 	acceleration_ratio = distance_to_end / deceleration_progress
 	# Max speed otherwise
 	else:
 		acceleration_ratio = 1.0
@@ -41,20 +41,25 @@ func get_current_speed(progress_ratio: float) -> float:
 	var current_acceleration = get_current_acceleration(progress_ratio)
 	return lerp(0.0, max_speed, current_acceleration)
 
-func move(delta):
-	var progress_ratio = nav_path_follower.progress_ratio
-	move_speed = get_current_speed(progress_ratio)
-	print(move_speed)
-	# Advance in the curve
-	nav_path_follower.progress_ratio += move_speed * delta * 0.01
-	global_transform.origin = nav_path_follower.global_transform.origin
-
-	look_at(nav_path_follower.global_transform.origin + nav_path_follower.transform.basis.z, Vector3.UP)
-
-	if progress_ratio >= 0.9:
+func advance_curve_progress(progress_ratio):
+	# If progress ratio does not exceed 1.0, we can progress, otherwise stop
+	if nav_path_follower.progress_ratio + progress_ratio <= 1.0:
+		nav_path_follower.progress_ratio += progress_ratio
+		global_transform.origin = nav_path_follower.global_transform.origin
+	else:
 		nav_path_follower.progress_ratio = 1.0
 		is_moving = false
 		move_speed = 0
+	
+func move(delta):
+	move_speed = get_current_speed(nav_path_follower.progress_ratio)
+	#var new_progress_ratio = move_speed * delta * 0.1
+	#advance_curve_progress(new_progress_ratio)
+	nav_path_follower.progress += 1.0 * delta
+	var a_p_ratio = nav_path_follower.progress_ratio
+	print(move_speed)
+	#look_at(nav_path_follower.global_transform.origin + nav_path_follower.transform.basis.z, Vector3.UP)
+
 		
 func get_target_direction(target_pos: Vector3) -> DIRECTION:
 	# Get looking at
@@ -83,11 +88,11 @@ func set_target_position(target_pos: Vector3):
 		var middle_pos = get_turn_direction_point(start_pos, target_pos)
 
 		# Limpiar y añadir nuevos puntos a la curva
-		nav_path.curve.clear_points()
-		nav_path.curve.add_point(start_pos)
-		nav_path.curve.add_point(middle_pos)
-		nav_path.curve.add_point(target_pos)
-
+		# nav_path.curve.clear_points()
+		# nav_path.curve.add_point(start_pos)
+		# nav_path.curve.add_point(middle_pos)
+		# nav_path.curve.add_point(target_pos)
+		nav_path_follower.loop = false
 		nav_path_follower.progress = 0 # Reinicia el offset para empezar el movimiento
 		is_moving = true
 		start_time = Time.get_ticks_msec() / 1000.0  # Obtener el tiempo actual en segundos

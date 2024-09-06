@@ -4,31 +4,39 @@
 [ext_resource type="PackedScene" uid="uid://148wmnt6bnt5" path="res://models/external/Sail Boat.glb" id="2_63us4"]
 [ext_resource type="Script" path="res://scripts/test/UTBoat.gd" id="2_w2p3k"]
 
+[sub_resource type="Curve3D" id="Curve3D_s22f8"]
+bake_interval = 245.93
+_data = {
+"points": PackedVector3Array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 0, 4, 0, 0, 0, 0, 0, 0, 6, 0, 6),
+"tilts": PackedFloat32Array(0, 0, 0)
+}
+point_count = 3
+
 [sub_resource type="BoxShape3D" id="BoxShape3D_kof5x"]
 size = Vector3(3.5431, 6.47425, 8.29735)
-
-[sub_resource type="Curve3D" id="Curve3D_gnfw7"]
-bake_interval = 60.0
 
 [node name="Boat" type="Node3D"]
 script = ExtResource("1_4ct1o")
 
-[node name="CharacterBody3D" type="CharacterBody3D" parent="."]
-
-[node name="Root Scene" parent="CharacterBody3D" instance=ExtResource("2_63us4")]
-transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, 0, 0, 0)
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="CharacterBody3D"]
-transform = Transform3D(0.207026, 0, 0, 0, 0.207026, 0, 0, 0, 0.207026, -0.0258088, 0.623294, 0.00735962)
-shape = SubResource("BoxShape3D_kof5x")
-
 [node name="NavigationPath" type="Path3D" parent="."]
 unique_name_in_owner = true
-curve = SubResource("Curve3D_gnfw7")
+curve = SubResource("Curve3D_s22f8")
 
 [node name="NavigationPathFollower" type="PathFollow3D" parent="NavigationPath"]
 unique_name_in_owner = true
+transform = Transform3D(-0.894413, 0, -0.447206, 0, 0.999997, 0, 0.447207, 0, -0.894412, 0, 0, 0)
 metadata/_edit_group_ = true
+
+[node name="CharacterBody3D" type="CharacterBody3D" parent="NavigationPath/NavigationPathFollower"]
+transform = Transform3D(-0.995468, 0, 0.0950916, 0, 1, 0, -0.0950916, 0, -0.995468, 0, 0, 0)
+
+[node name="Root Scene" parent="NavigationPath/NavigationPathFollower/CharacterBody3D" instance=ExtResource("2_63us4")]
+transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, 0, 0, 0)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="NavigationPath/NavigationPathFollower/CharacterBody3D"]
+transform = Transform3D(0.207026, 0, 0, 0, 0.207026, 0, 0, 0, 0.207026, -0.0258088, 0.623294, 0.00735962)
+visible = false
+shape = SubResource("BoxShape3D_kof5x")
 
 [node name="UTBoat" type="Node" parent="."]
 script = ExtResource("2_w2p3k")

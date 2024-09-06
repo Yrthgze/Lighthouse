@@ -10,7 +10,7 @@ extends Node3D
 var angle: float = 0.0
 
 func _ready():
-	target = $"../Movable"
+	target = $"../Boat"
 
 func _process(delta: float) -> void:
 	if target != null:
