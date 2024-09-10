@@ -7,7 +7,7 @@ enum DIRECTION {LEFT = -1, RIGHT = 1}
 
 var is_moving: bool = false
 # Variables de configuración
-var max_speed = 1.0  # Velocidad máxima en unidades por segundo
+var max_speed = 2.0  # Velocidad máxima en unidades por segundo
 var acceleration_duration = 4.0  # Duración en segundos para alcanzar la velocidad máxima
 var deceleration_progress = 0.5  # Distancia desde el final de la curva donde comenzará a desacelerar
 var start_time = 0.0  # Tiempo de inicio del movimiento
@@ -15,7 +15,7 @@ var acceleration_ratio = 0.0
 
 func _ready():
 	nav_path_follower.progress = 0.0
-	set_target_position(Vector3(5,0, 5))
+	set_target_position(Vector3(20,0, 25))
 	rotation_speed = 1.0
 	move_speed = 0.0
 
@@ -45,17 +45,21 @@ func advance_curve_progress(progress_ratio):
 	# If progress ratio does not exceed 1.0, we can progress, otherwise stop
 	if nav_path_follower.progress_ratio + progress_ratio <= 1.0:
 		nav_path_follower.progress_ratio += progress_ratio
-		global_transform.origin = nav_path_follower.global_transform.origin
+		
 	else:
 		nav_path_follower.progress_ratio = 1.0
 		is_moving = false
 		move_speed = 0
 	
+func get_real_position() -> Vector3:
+	return	nav_path_follower.global_transform.origin
+
 func move(delta):
 	move_speed = get_current_speed(nav_path_follower.progress_ratio)
 	#var new_progress_ratio = move_speed * delta * 0.1
 	#advance_curve_progress(new_progress_ratio)
-	nav_path_follower.progress += 1.0 * delta
+	nav_path_follower.progress += max_speed * delta
+	#global_transform.origin = nav_path_follower.global_transform.origin
 	var a_p_ratio = nav_path_follower.progress_ratio
 	print(move_speed)
 	#look_at(nav_path_follower.global_transform.origin + nav_path_follower.transform.basis.z, Vector3.UP)
@@ -88,10 +92,10 @@ func set_target_position(target_pos: Vector3):
 		var middle_pos = get_turn_direction_point(start_pos, target_pos)
 
 		# Limpiar y añadir nuevos puntos a la curva
-		# nav_path.curve.clear_points()
-		# nav_path.curve.add_point(start_pos)
-		# nav_path.curve.add_point(middle_pos)
-		# nav_path.curve.add_point(target_pos)
+		nav_path.curve.clear_points()
+		nav_path.curve.add_point(start_pos)
+		nav_path.curve.add_point(middle_pos)
+		nav_path.curve.add_point(target_pos)
 		nav_path_follower.loop = false
 		nav_path_follower.progress = 0 # Reinicia el offset para empezar el movimiento
 		is_moving = true

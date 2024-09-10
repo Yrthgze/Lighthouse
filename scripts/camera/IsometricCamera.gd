@@ -10,7 +10,7 @@ extends Node3D
 var angle: float = 0.0
 
 func _ready():
-	target = $"../Boat"
+	target = %Boat
 
 func _process(delta: float) -> void:
 	if target != null:
@@ -20,7 +20,7 @@ func _process(delta: float) -> void:
 
 		# Calculates the camera new position
 		var offset: Vector3 = Vector3(sin(angle) * distance, height, cos(angle) * distance)
-		global_transform.origin = target.global_transform.origin + offset
+		global_transform.origin = target.get_real_position() + offset
 
 		# Makes the camera look at the position
 		look_at(target.global_transform.origin, Vector3.UP)
