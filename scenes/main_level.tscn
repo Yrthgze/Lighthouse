@@ -70,3 +70,4 @@ unique_name_in_owner = true
 move_speed = 0.0
 
 [node name="Boat" parent="." instance=ExtResource("5_hvnmw")]
+unique_name_in_owner = true
