@@ -24,6 +24,7 @@ curve = SubResource("Curve3D_s22f8")
 [node name="NavigationPathFollower" type="PathFollow3D" parent="NavigationPath"]
 unique_name_in_owner = true
 transform = Transform3D(-0.894409, 0, -0.447205, 0, 1, 0, 0.447205, 0, -0.894409, 0, 0, 0)
+loop = false
 metadata/_edit_group_ = true
 
 [node name="CharacterBody3D" type="CharacterBody3D" parent="NavigationPath/NavigationPathFollower"]
