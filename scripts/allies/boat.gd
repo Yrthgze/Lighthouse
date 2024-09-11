@@ -59,7 +59,7 @@ func move(delta):
 	advance_curve_progress(move_speed * delta)
 	nav_path_follower.progress += move_speed * delta
 	var a_p_ratio = nav_path_follower.progress_ratio
-	print(move_speed)
+
 	#look_at(nav_path_follower.global_transform.origin + nav_path_follower.transform.basis.z, Vector3.UP)
 
 		
@@ -99,3 +99,5 @@ func set_target_position(target_pos: Vector3):
 		is_moving = true
 		start_time = Time.get_ticks_msec() / 1000.0  # Obtener el tiempo actual en segundos
 		acceleration_ratio = 0.0
+		
+		%curveVisualizer.set_path(nav_path)
