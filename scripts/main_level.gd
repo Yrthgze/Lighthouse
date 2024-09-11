@@ -3,10 +3,12 @@ extends Node3D
 var TentacleScene = preload("res://scenes/characters/enemies/tentacle.tscn")
 var target_position: Vector3
 @onready var lighthouse: Node3D = %Lighthouse
+@onready var InputManager: Node = %InputManager
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	target_position = lighthouse.global_transform.origin
+	InputManager.set_target(%Boat)
 	#spawn_multiple_tentacles(8, 20.0) 
 
 func generate_random_position_around_target(radius: float) -> Vector3:

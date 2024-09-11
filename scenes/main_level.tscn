@@ -1,7 +1,8 @@
-[gd_scene load_steps=11 format=3 uid="uid://08s3sa3k2w10"]
+[gd_scene load_steps=15 format=3 uid="uid://08s3sa3k2w10"]
 
 [ext_resource type="Script" path="res://scripts/main_level.gd" id="1_tjt8x"]
 [ext_resource type="Script" path="res://scripts/camera/IsometricCamera.gd" id="1_tw4xm"]
+[ext_resource type="Script" path="res://scripts/managers/InputManager.gd" id="2_gcsqj"]
 [ext_resource type="Script" path="res://scripts/Movable.gd" id="2_vpmt4"]
 [ext_resource type="PackedScene" uid="uid://ct2tm8hjgiah1" path="res://scenes/lighthouse.tscn" id="3_4w0dy"]
 [ext_resource type="PackedScene" uid="uid://c5nqn6s5juyvt" path="res://scenes/characters/allies/boat.tscn" id="5_hvnmw"]
@@ -28,12 +29,29 @@ volumetric_fog_enabled = true
 
 [sub_resource type="BoxMesh" id="BoxMesh_1c37x"]
 
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_mjc4d"]
+albedo_color = Color(0, 0, 1, 1)
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_h65w7"]
+material = SubResource("StandardMaterial3D_mjc4d")
+size = Vector2(2000, 2000)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_w1i5n"]
+size = Vector3(2000, 1, 2000)
+
 [node name="MainLevel" type="Node3D"]
 script = ExtResource("1_tjt8x")
+
+[node name="Scripting" type="Node" parent="."]
+
+[node name="InputManager" type="Node" parent="Scripting"]
+unique_name_in_owner = true
+script = ExtResource("2_gcsqj")
 
 [node name="Lightning" type="Node3D" parent="."]
 
 [node name="Fog" type="Node3D" parent="Lightning"]
+visible = false
 
 [node name="FogVolume" type="FogVolume" parent="Lightning/Fog"]
 size = Vector3(20, 20, 20)
@@ -53,6 +71,7 @@ script = ExtResource("1_tw4xm")
 
 [node name="Camera3D" type="Camera3D" parent="IsometricCamera"]
 transform = Transform3D(1, 0, 0, 0, 1, 2.98023e-08, 0, -5.96046e-08, 1, 0.0257607, 0.0209341, -0.0362587)
+current = true
 
 [node name="Movable" type="Node3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 5.13032)
@@ -69,5 +88,17 @@ skeleton = NodePath("../..")
 unique_name_in_owner = true
 move_speed = 0.0
 
+[node name="SeaStaticBody" type="StaticBody3D" parent="Scene"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1, 0)
+
+[node name="SeaMesh" type="MeshInstance3D" parent="Scene/SeaStaticBody"]
+mesh = SubResource("PlaneMesh_h65w7")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Scene/SeaStaticBody"]
+shape = SubResource("BoxShape3D_w1i5n")
+
 [node name="Boat" parent="." instance=ExtResource("5_hvnmw")]
 unique_name_in_owner = true
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 2.53151)
+
+[connection signal="input_event" from="Scene/SeaStaticBody" to="Scripting/InputManager" method="_on_sea_static_body_input_event"]
