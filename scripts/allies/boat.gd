@@ -42,15 +42,13 @@ func get_current_speed(progress_ratio: float) -> float:
 	var current_acceleration = get_current_acceleration(progress_ratio)
 	return lerp(0.0, max_speed, current_acceleration)
 
-func advance_curve_progress(progress_ratio):
+func advance_curve_progress(progress):
+	nav_path_follower.progress += progress
 	# If progress ratio does not exceed 1.0, we can progress, otherwise stop
-	if nav_path_follower.progress_ratio + progress_ratio <= 1.0:
-		nav_path_follower.progress_ratio += progress_ratio
-		global_transform.origin = nav_path_follower.global_transform.origin
-	else:
+	if nav_path_follower.progress_ratio >= 1.0:
 		nav_path_follower.progress_ratio = 1.0
 		is_moving = false
-		move_speed = 0
+		move_speed = 0		
 
 func get_real_position() -> Vector3:
 	return	nav_path_follower.global_transform.origin
@@ -58,7 +56,7 @@ func get_real_position() -> Vector3:
 func move(delta):
 	move_speed = get_current_speed(nav_path_follower.progress_ratio)
 	#var new_progress_ratio = move_speed * delta * 0.1
-	#advance_curve_progress(new_progress_ratio)
+	advance_curve_progress(move_speed * delta)
 	nav_path_follower.progress += move_speed * delta
 	var a_p_ratio = nav_path_follower.progress_ratio
 	print(move_speed)
