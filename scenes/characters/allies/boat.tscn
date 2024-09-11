@@ -13,7 +13,6 @@ _data = {
 point_count = 3
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_kof5x"]
-size = Vector3(3.5431, 6.47425, 8.29735)
 
 [node name="Boat" type="Node3D"]
 script = ExtResource("1_4ct1o")
@@ -36,7 +35,6 @@ transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, 0, 0, 0)
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="NavigationPath/NavigationPathFollower/CharacterBody3D"]
 transform = Transform3D(0.207026, 0, 0, 0, 0.207026, 0, 0, 0, 0.207026, -0.0258088, 0.623294, 0.00735962)
-visible = false
 shape = SubResource("BoxShape3D_kof5x")
 
 [node name="UTBoat" type="Node" parent="."]

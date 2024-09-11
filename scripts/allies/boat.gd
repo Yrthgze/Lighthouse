@@ -15,7 +15,7 @@ var acceleration_ratio = 0.0
 
 func _ready():
 	nav_path_follower.progress = 0.0
-	set_target_position(Vector3(5,0, 5))
+	set_target_position(Vector3(25,0, 25))
 	rotation_speed = 1.0
 	move_speed = 0.0
 

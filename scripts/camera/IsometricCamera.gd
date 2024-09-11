@@ -23,4 +23,4 @@ func _process(delta: float) -> void:
 		global_transform.origin = target.global_transform.origin + offset
 
 		# Makes the camera look at the position
-		look_at(target.global_transform.origin, Vector3.UP)
+		look_at(target.get_real_position(), Vector3.UP)
