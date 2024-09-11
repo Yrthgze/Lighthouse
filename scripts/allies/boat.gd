@@ -9,7 +9,7 @@ var is_moving: bool = false
 # Variables de configuración
 var max_speed = 2.0  # Velocidad máxima en unidades por segundo
 var acceleration_duration = 4.0  # Duración en segundos para alcanzar la velocidad máxima
-var deceleration_progress = 0.5  # Distancia desde el final de la curva donde comenzará a desacelerar
+var deceleration_progress = 0.75  # Distancia desde el final de la curva donde comenzará a desacelerar
 var start_time = 0.0  # Tiempo de inicio del movimiento
 var acceleration_ratio = 0.0
 
@@ -30,8 +30,9 @@ func get_current_acceleration(progress_ratio: float) -> float:
 	if elapsed_time < acceleration_duration:
 		acceleration_ratio = elapsed_time / acceleration_duration
 	# Ease-in at end
-	# elif distance_to_end < deceleration_progress:
-	# 	acceleration_ratio = distance_to_end / deceleration_progress
+	elif distance_to_end < deceleration_progress:
+		acceleration_ratio = distance_to_end / deceleration_progress
+		acceleration_ratio = acceleration_ratio if acceleration_ratio > 0.2 else 0.2
 	# Max speed otherwise
 	else:
 		acceleration_ratio = 1.0
@@ -58,7 +59,7 @@ func move(delta):
 	move_speed = get_current_speed(nav_path_follower.progress_ratio)
 	#var new_progress_ratio = move_speed * delta * 0.1
 	#advance_curve_progress(new_progress_ratio)
-	nav_path_follower.progress += max_speed * delta
+	nav_path_follower.progress += move_speed * delta
 	var a_p_ratio = nav_path_follower.progress_ratio
 	print(move_speed)
 	#look_at(nav_path_follower.global_transform.origin + nav_path_follower.transform.basis.z, Vector3.UP)
