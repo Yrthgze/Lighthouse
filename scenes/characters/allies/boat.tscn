@@ -5,10 +5,10 @@
 [ext_resource type="Script" path="res://scripts/test/UTBoat.gd" id="2_w2p3k"]
 [ext_resource type="Script" path="res://scripts/debug/curveVisualizer.gd" id="4_tqvr2"]
 
-[sub_resource type="Curve3D" id="Curve3D_s22f8"]
-bake_interval = 512.0
+[sub_resource type="Curve3D" id="Curve3D_6848c"]
+bake_interval = 20.0
 _data = {
-"points": PackedVector3Array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 0, 4, 0, 0, 0, 0, 0, 0, 6, 0, 6),
+"points": PackedVector3Array(0, 0, 0, 0, 0, 0, 0, 0, 0, -2.93732, 0.368882, -2.84609, 2.93732, -0.368882, 2.84609, 2, 0, 4, -3.14261, -0.0290651, -0.997457, 3.14261, 0.0290651, 0.997457, 6, 0, 6),
 "tilts": PackedFloat32Array(0, 0, 0)
 }
 point_count = 3
@@ -20,11 +20,12 @@ script = ExtResource("1_4ct1o")
 
 [node name="NavigationPath" type="Path3D" parent="."]
 unique_name_in_owner = true
-curve = SubResource("Curve3D_s22f8")
+curve = SubResource("Curve3D_6848c")
 
 [node name="NavigationPathFollower" type="PathFollow3D" parent="NavigationPath"]
 unique_name_in_owner = true
-transform = Transform3D(-0.894409, 0, -0.447205, 0, 1, 0, 0.447205, 0, -0.894409, 0, 0, 0)
+transform = Transform3D(-0.894372, 0, -0.447186, 0, 0.999991, 0, 0.447186, 0, -0.894372, 0, 0, 0)
+rotation_mode = 2
 loop = false
 metadata/_edit_group_ = true
 
@@ -33,7 +34,7 @@ transform = Transform3D(-0.995468, 0, 0.0950916, 0, 1, 0, -0.0950916, 0, -0.9954
 
 [node name="RealBoat" parent="NavigationPath/NavigationPathFollower/CharacterBody3D" instance=ExtResource("2_63us4")]
 unique_name_in_owner = true
-transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, 0, 0, 0)
+transform = Transform3D(1.98951, 0, 0.204613, 0, 2, 0, -0.204613, 0, 1.98951, 0.0274245, 0, -0.00261971)
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="NavigationPath/NavigationPathFollower/CharacterBody3D"]
 transform = Transform3D(0.207026, 0, 0, 0, 0.207026, 0, 0, 0, 0.207026, -0.0258088, 0.623294, 0.00735962)

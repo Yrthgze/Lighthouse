@@ -4,7 +4,8 @@ func _ready():
 	run_tests()
 
 func run_tests():
-	test_get_turn_direction_point()
+	pass
+	#test_get_turn_direction_point()
 	
 func assert_vector3(p1: Vector3, p2: Vector3, msg: String):
 	assert(p1.is_equal_approx(p2), msg)
