@@ -94,18 +94,35 @@ func get_turn_direction_point(start_pos: Vector3,target_pos: Vector3) -> Vector3
 	mid_point += direction * normal_vector * rotation_speed
 	return mid_point
 
+func calculate_in_points(start_point: Vector3, mid_point: Vector3, target_point: Vector3, distance_factor: float) -> Dictionary:
+	var points_in = {}
+
+	# Calcula la dirección del punto "in" del punto medio
+	var direction_to_mid = (mid_point - start_point).normalized()
+	var mid_in_point = mid_point - direction_to_mid * distance_factor
+	points_in["mid_in"] = -mid_in_point
+
+	# Calcula la dirección del punto "in" del punto objetivo
+	var direction_to_target = (target_point - mid_point).normalized()
+	var target_in_point = target_point - direction_to_target * distance_factor
+	points_in["target_in"] = -target_in_point
+
+	return points_in
+
 # Para cambiar la curva dinámicamente
 func set_target_position(target_pos: Vector3):
 	if nav_path_follower:
 		var real_pos = get_real_position()
 		var start_pos = real_pos
 		var middle_pos = get_turn_direction_point(start_pos, target_pos)
-
+		
+		#TBD, get the IN points for middle and target points
+		var points_in = calculate_in_points(start_pos, middle_pos, target_pos, 5.0)
 		# Limpiar y añadir nuevos puntos a la curva
 		nav_path.curve.clear_points()
 		nav_path.curve.add_point(start_pos)
-		nav_path.curve.add_point(middle_pos)
-		nav_path.curve.add_point(target_pos)
+		nav_path.curve.add_point(middle_pos, points_in["mid_in"])
+		nav_path.curve.add_point(target_pos, points_in["target_in"])
 		nav_path.curve.bake_interval
 		nav_path_follower.loop = false
 		nav_path_follower.progress = 0 # Reinicia el offset para empezar el movimiento
