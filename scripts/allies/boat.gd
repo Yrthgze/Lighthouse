@@ -15,7 +15,7 @@ var acceleration_ratio = 0.0
 
 func _ready():
 	nav_path_follower.progress = 0.0
-	set_target_position(Vector3(25,0, 25))
+	set_target_position(Vector3(0,0, 5))
 	rotation_speed = 1.0
 	move_speed = 0.0
 
@@ -86,6 +86,7 @@ func get_turn_direction_point(start_pos: Vector3,target_pos: Vector3) -> Vector3
 # Para cambiar la curva dinámicamente
 func set_target_position(target_pos: Vector3):
 	if nav_path_follower:
+		target_pos = Vector3(target_pos.z, 0, -target_pos.x)
 		var start_pos = global_transform.origin
 		var middle_pos = get_turn_direction_point(start_pos, target_pos)
 

@@ -74,7 +74,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 2.98023e-08, 0, -5.96046e-08, 1, 0.025760
 current = true
 
 [node name="Movable" type="Node3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 5.13032)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 5)
 script = ExtResource("2_vpmt4")
 move_speed = 5.0
 
@@ -99,6 +99,5 @@ shape = SubResource("BoxShape3D_w1i5n")
 
 [node name="Boat" parent="." instance=ExtResource("5_hvnmw")]
 unique_name_in_owner = true
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 2.53151)
 
 [connection signal="input_event" from="Scene/SeaStaticBody" to="Scripting/InputManager" method="_on_sea_static_body_input_event"]
