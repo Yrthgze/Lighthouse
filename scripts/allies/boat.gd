@@ -56,7 +56,7 @@ func get_real_position() -> Vector3:
 
 func move(delta):
 	move_speed = get_current_speed(nav_path_follower.progress_ratio)
-	print(move_speed)
+	
 	#var new_progress_ratio = move_speed * delta * 0.1
 	advance_curve_progress(move_speed * delta)
 	"var current_position = get_real_position()
@@ -69,24 +69,46 @@ func move(delta):
 	%RealBoat.look_at(current_position + direction_to_look, Vector3.UP)"
 
 		
-func get_target_direction(target_pos: Vector3) -> DIRECTION:
-	# Get looking at
-	var lookin_at = -transform.basis.z
-	var direction_vec_from_lookin_point = (target_pos - lookin_at).abs()
-	var direction = DIRECTION.RIGHT if direction_vec_from_lookin_point.x >= direction_vec_from_lookin_point.z else DIRECTION.LEFT
-	return direction
+func get_target_direction(target_pos: Vector3) -> int:
+	# Obtener la posición actual del objeto en 2D (X, Z)
+	var actual_pos = get_real_position()
+	var current_pos_2d = Vector2(actual_pos.x, actual_pos.z)
+	# Obtener la dirección actual del objeto en 2D (X, Z)
+	var basis_matrix = nav_path_follower.transform.basis
+	var current_forward_2d = Vector2(-basis_matrix.z.x, -basis_matrix.z.z)
+	# Obtener la posición objetivo en 2D (X, Z)
+	var target_pos_2d = Vector2(target_pos.x, target_pos.z)
+
+	# Calcular el vector de dirección hacia el objetivo
+	var direction_to_target_2d = (target_pos_2d - current_pos_2d).normalized()
+	# Normalizar la dirección actual (por seguridad, aunque ya debería estar normalizado)
+	current_forward_2d = current_forward_2d.normalized()
+
+	# Calcular el determinante para decidir la dirección
+	var determinant = current_forward_2d.x * direction_to_target_2d.y - current_forward_2d.y * direction_to_target_2d.x
+
+	# Determinar la dirección basándose en el signo del determinante
+	if determinant > 0:
+		return 1  # Derecha
+	else:
+		return -1  # Izquierda
 
 func get_turn_direction_point(start_pos: Vector3,target_pos: Vector3) -> Vector3:
 	var direction_vector = target_pos - start_pos
 	# Make sure the y axis doesnt influence the calculus
 	direction_vector.y = 0
 	var direction = get_target_direction(target_pos)
+	var direction_normalized = direction_vector.normalized()
 	var mid_point = (start_pos + target_pos) / 2
-	# Get the normal to direction vector
-	var normal = Vector3(direction_vector.z, 0, -direction_vector.x)
-	normal.x = sign(normal.x)
-	normal.z = sign(normal.z)
-	mid_point += direction * normal * rotation_speed
+	
+	# Get the normal to direction vector, I THINK THIS ONE
+	#var normal = Vector3(direction_vector.z, 0, -direction_vector.x)
+	#normal.x = sign(normal.x)
+	#normal.z = sign(normal.z)
+	#3. Obtener la normal (perpendicular) al vector de dirección para definir la base de cálculo
+	var normal_vector = Vector3(direction_normalized.z, 0, -direction_normalized.x)
+	
+	mid_point += direction * normal_vector * rotation_speed
 	return mid_point
 
 # Para cambiar la curva dinámicamente

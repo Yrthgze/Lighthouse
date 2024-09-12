@@ -8,7 +8,7 @@
 [sub_resource type="Curve3D" id="Curve3D_6848c"]
 bake_interval = 20.0
 _data = {
-"points": PackedVector3Array(0, 0, 0, 0, 0, 0, 0, 0, 0, -2.93732, 0.368882, -2.84609, 2.93732, -0.368882, 2.84609, 2, 0, 4, -3.14261, -0.0290651, -0.997457, 3.14261, 0.0290651, 0.997457, 6, 0, 6),
+"points": PackedVector3Array(0, 0, 0, 0, 0, 0, 0, 0, 0, -1.452, 0, -1.311, 1.452, 0, 1.311, 1.92702, 0.0746307, 4.67571, -2.50369, -0.0177002, -0.706451, 2.50369, 0.0177002, 0.706451, 6, 0, 6),
 "tilts": PackedFloat32Array(0, 0, 0)
 }
 point_count = 3
@@ -24,7 +24,7 @@ curve = SubResource("Curve3D_6848c")
 
 [node name="NavigationPathFollower" type="PathFollow3D" parent="NavigationPath"]
 unique_name_in_owner = true
-transform = Transform3D(-0.894372, 0, -0.447186, 0, 0.999991, 0, 0.447186, 0, -0.894372, 0, 0, 0)
+transform = Transform3D(-0.924486, -0.00562229, -0.380969, 0, 0.999857, -0.0147544, 0.381011, -0.0136419, -0.924384, 0, 0, 0)
 rotation_mode = 2
 loop = false
 metadata/_edit_group_ = true
