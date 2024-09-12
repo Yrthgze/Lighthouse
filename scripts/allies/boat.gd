@@ -15,7 +15,6 @@ var acceleration_ratio = 0.0
 
 func _ready():
 	nav_path_follower.progress = 0.0
-	#set_target_position(Vector3(0,0, 5))
 	rotation_speed = 1.0
 	move_speed = 0.0
 
@@ -56,42 +55,26 @@ func get_real_position() -> Vector3:
 
 func move(delta):
 	move_speed = get_current_speed(nav_path_follower.progress_ratio)
-	
-	#var new_progress_ratio = move_speed * delta * 0.1
 	advance_curve_progress(move_speed * delta)
-	"var current_position = get_real_position()
-	var future_progress = nav_path_follower.progress + (move_speed * delta * 0.1)
-	var future_position = nav_path.curve.get_point_in(future_progress)
-	# Calcula la dirección hacia la que el bote debe mirar
-	var direction_to_look = (future_position - current_position).normalized()
-	direction_to_look.y = 0  # Ignorar el eje Y para mantener el barco en el plano horizontal
-	# Interpola suavemente la rotación del bote hacia la dirección calculada
-	%RealBoat.look_at(current_position + direction_to_look, Vector3.UP)"
-
 		
-func get_target_direction(target_pos: Vector3) -> int:
-	# Obtener la posición actual del objeto en 2D (X, Z)
+func get_target_direction(target_pos: Vector3) -> DIRECTION:
 	var actual_pos = get_real_position()
 	var current_pos_2d = Vector2(actual_pos.x, actual_pos.z)
-	# Obtener la dirección actual del objeto en 2D (X, Z)
 	var basis_matrix = nav_path_follower.transform.basis
 	var current_forward_2d = Vector2(-basis_matrix.z.x, -basis_matrix.z.z)
-	# Obtener la posición objetivo en 2D (X, Z)
 	var target_pos_2d = Vector2(target_pos.x, target_pos.z)
 
-	# Calcular el vector de dirección hacia el objetivo
+	# Calculate direction towards the objective
 	var direction_to_target_2d = (target_pos_2d - current_pos_2d).normalized()
-	# Normalizar la dirección actual (por seguridad, aunque ya debería estar normalizado)
+	# Normalize, just in case
 	current_forward_2d = current_forward_2d.normalized()
-
-	# Calcular el determinante para decidir la dirección
+	# Calculate the determinant
 	var determinant = current_forward_2d.x * direction_to_target_2d.y - current_forward_2d.y * direction_to_target_2d.x
-
-	# Determinar la dirección basándose en el signo del determinante
+	# Detect the direction from the determinant
 	if determinant > 0:
-		return 1  # Derecha
+		return DIRECTION.RIGHT
 	else:
-		return -1  # Izquierda
+		return DIRECTION.LEFT
 
 func get_turn_direction_point(start_pos: Vector3,target_pos: Vector3) -> Vector3:
 	var direction_vector = target_pos - start_pos
