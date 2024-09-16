@@ -1,6 +1,6 @@
 extends Character
 
-enum DIRECTION {LEFT = -1, RIGHT = 1}
+var Utils = load("res://scripts/utils/utils.gd").new()
 
 @onready var nav_path: Path3D = %NavigationPath
 @onready var nav_path_follower: PathFollow3D = %NavigationPathFollower
@@ -57,36 +57,10 @@ func move(delta):
 	move_speed = get_current_speed(nav_path_follower.progress_ratio)
 	advance_curve_progress(move_speed * delta)
 
-func get_xz(v3:Vector3) -> Vector2:
-	return Vector2(v3.x, v3.z)
-	
-func normalize_xz(v3:Vector3) -> Vector3:
-	var v2 = get_xz(v3)
-	v2 = v2.normalized()
-	return Vector3(v2.x, 0, v2.y)
-
-func get_target_direction(target_pos: Vector3) -> DIRECTION:
-	var current_pos = get_real_position()
-	var basis_matrix = nav_path_follower.transform.basis
-	var current_forward_2d = Vector2(-basis_matrix.z.x, -basis_matrix.z.z)
-
-	# Calculate direction towards the objective
-	var direction_to_target_2d = normalize_xz(target_pos - current_pos)
-	# Normalize, just in case
-	current_forward_2d = current_forward_2d.normalized()
-	# Calculate the determinant
-	var determinant = current_forward_2d.x * direction_to_target_2d.z - current_forward_2d.y * direction_to_target_2d.x
-	# Detect the direction from the determinant
-	if determinant > 0:
-		return DIRECTION.RIGHT
-	else:
-		return DIRECTION.LEFT
-
 func get_turn_direction_point(start_pos: Vector3,target_pos: Vector3) -> Vector3:
 	var direction_vector = target_pos - start_pos
-
-	var direction = get_target_direction(target_pos)
-	var direction_normalized = normalize_xz(direction_vector)
+	var direction = Utils.get_target_direction(get_real_position(), Utils.get_looking_at(nav_path_follower), target_pos)
+	var direction_normalized = Utils.normalize_xz(direction_vector)
 	var mid_point = (start_pos + target_pos) / 2
 	# Get the normal to direction vector, I THINK THIS ONE
 	#var normal = Vector3(direction_vector.z, 0, -direction_vector.x)
@@ -102,12 +76,12 @@ func calculate_in_points(start_point: Vector3, mid_point: Vector3, target_point:
 	var points_in = {}
 
 	# Calcula la dirección del punto "in" del punto medio
-	var direction_to_mid = normalize_xz(mid_point - start_point)
+	var direction_to_mid = Utils.normalize_xz(mid_point - start_point)
 	var mid_in_point = mid_point - direction_to_mid * distance_factor
 	points_in["mid_in"] = -mid_in_point
 
 	# Calcula la dirección del punto "in" del punto objetivo
-	var direction_to_target = normalize_xz(target_point - mid_point)
+	var direction_to_target = Utils.normalize_xz(target_point - mid_point)
 	var target_in_point = target_point - direction_to_target * distance_factor
 	points_in["target_in"] = -target_in_point
 
