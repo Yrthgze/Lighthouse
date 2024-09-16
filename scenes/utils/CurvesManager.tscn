@@ -1,0 +1,18 @@
+[gd_scene load_steps=4 format=3 uid="uid://byxb8hymisxtq"]
+
+[ext_resource type="Script" path="res://scripts/managers/CurvesManager.gd" id="1_sa3kn"]
+[ext_resource type="Script" path="res://scripts/debug/curveVisualizer.gd" id="2_ngrgr"]
+
+[sub_resource type="Curve3D" id="Curve3D_k2rw0"]
+bake_interval = 75.92
+
+[node name="CurvesManager" type="Path3D"]
+curve = SubResource("Curve3D_k2rw0")
+script = ExtResource("1_sa3kn")
+
+[node name="CurvesFollower" type="PathFollow3D" parent="."]
+unique_name_in_owner = true
+
+[node name="curveVisualizer" type="MeshInstance3D" parent="."]
+unique_name_in_owner = true
+script = ExtResource("2_ngrgr")

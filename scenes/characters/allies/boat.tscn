@@ -2,43 +2,30 @@
 
 [ext_resource type="Script" path="res://scripts/allies/boat.gd" id="1_4ct1o"]
 [ext_resource type="PackedScene" uid="uid://148wmnt6bnt5" path="res://models/external/Sail Boat.glb" id="2_63us4"]
+[ext_resource type="PackedScene" uid="uid://byxb8hymisxtq" path="res://scenes/utils/CurvesManager.tscn" id="2_jab1t"]
 [ext_resource type="Script" path="res://scripts/test/UTBoat.gd" id="2_w2p3k"]
 [ext_resource type="Script" path="res://scripts/debug/curveVisualizer.gd" id="4_tqvr2"]
 
-[sub_resource type="Curve3D" id="Curve3D_6848c"]
-bake_interval = 20.0
-_data = {
-"points": PackedVector3Array(0, 0, 0, 0, 0, 0, 0, 0, 0, -1.452, 0, -1.311, 1.452, 0, 1.311, 1.92702, 0.0746307, 4.67571, -2.50369, -0.0177002, -0.706451, 2.50369, 0.0177002, 0.706451, 6, 0, 6),
-"tilts": PackedFloat32Array(0, 0, 0)
-}
-point_count = 3
-
 [sub_resource type="BoxShape3D" id="BoxShape3D_kof5x"]
+size = Vector3(1.65222, 2.68108, 4.06946)
 
 [node name="Boat" type="Node3D"]
 script = ExtResource("1_4ct1o")
 
-[node name="NavigationPath" type="Path3D" parent="."]
+[node name="Boat" type="CharacterBody3D" parent="."]
 unique_name_in_owner = true
-curve = SubResource("Curve3D_6848c")
+transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, 0, 0, 0)
 
-[node name="NavigationPathFollower" type="PathFollow3D" parent="NavigationPath"]
+[node name="RealBoat" parent="Boat" instance=ExtResource("2_63us4")]
 unique_name_in_owner = true
-transform = Transform3D(-0.924486, -0.00562231, -0.38097, 0, 0.999857, -0.0147544, 0.381012, -0.0136419, -0.924384, 0, 0, 0)
-rotation_mode = 2
-loop = false
-metadata/_edit_group_ = true
+transform = Transform3D(-2, 0, -1.74846e-07, 0, 2, 0, 1.74846e-07, 0, -2, 0, 0, 0)
 
-[node name="CharacterBody3D" type="CharacterBody3D" parent="NavigationPath/NavigationPathFollower"]
-transform = Transform3D(-0.995468, 0, 0.0950916, 0, 1, 0, -0.0950916, 0, -0.995468, 0, 0, 0)
-
-[node name="RealBoat" parent="NavigationPath/NavigationPathFollower/CharacterBody3D" instance=ExtResource("2_63us4")]
-unique_name_in_owner = true
-transform = Transform3D(1.98951, 0, 0.204613, 0, 2, 0, -0.204613, 0, 1.98951, 0.0274245, 0, -0.00261971)
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="NavigationPath/NavigationPathFollower/CharacterBody3D"]
-transform = Transform3D(0.207026, 0, 0, 0, 0.207026, 0, 0, 0, 0.207026, -0.0258088, 0.623294, 0.00735962)
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Boat"]
+transform = Transform3D(0.4, 0, 0, 0, 0.4, 0, 0, 0, 0.4, 0, 0.500111, 0)
 shape = SubResource("BoxShape3D_kof5x")
+
+[node name="CurvesManager" parent="." instance=ExtResource("2_jab1t")]
+unique_name_in_owner = true
 
 [node name="UTBoat" type="Node" parent="."]
 script = ExtResource("2_w2p3k")
