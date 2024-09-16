@@ -56,20 +56,26 @@ func get_real_position() -> Vector3:
 func move(delta):
 	move_speed = get_current_speed(nav_path_follower.progress_ratio)
 	advance_curve_progress(move_speed * delta)
-		
+
+func get_xz(v3:Vector3) -> Vector2:
+	return Vector2(v3.x, v3.z)
+	
+func normalize_xz(v3:Vector3) -> Vector3:
+	var v2 = get_xz(v3)
+	v2 = v2.normalized()
+	return Vector3(v2.x, 0, v2.y)
+
 func get_target_direction(target_pos: Vector3) -> DIRECTION:
-	var actual_pos = get_real_position()
-	var current_pos_2d = Vector2(actual_pos.x, actual_pos.z)
+	var current_pos = get_real_position()
 	var basis_matrix = nav_path_follower.transform.basis
 	var current_forward_2d = Vector2(-basis_matrix.z.x, -basis_matrix.z.z)
-	var target_pos_2d = Vector2(target_pos.x, target_pos.z)
 
 	# Calculate direction towards the objective
-	var direction_to_target_2d = (target_pos_2d - current_pos_2d).normalized()
+	var direction_to_target_2d = normalize_xz(target_pos - current_pos)
 	# Normalize, just in case
 	current_forward_2d = current_forward_2d.normalized()
 	# Calculate the determinant
-	var determinant = current_forward_2d.x * direction_to_target_2d.y - current_forward_2d.y * direction_to_target_2d.x
+	var determinant = current_forward_2d.x * direction_to_target_2d.z - current_forward_2d.y * direction_to_target_2d.x
 	# Detect the direction from the determinant
 	if determinant > 0:
 		return DIRECTION.RIGHT
@@ -78,18 +84,16 @@ func get_target_direction(target_pos: Vector3) -> DIRECTION:
 
 func get_turn_direction_point(start_pos: Vector3,target_pos: Vector3) -> Vector3:
 	var direction_vector = target_pos - start_pos
-	# Make sure the y axis doesnt influence the calculus
-	direction_vector.y = 0
+
 	var direction = get_target_direction(target_pos)
-	var direction_normalized = direction_vector.normalized()
+	var direction_normalized = normalize_xz(direction_vector)
 	var mid_point = (start_pos + target_pos) / 2
-	
 	# Get the normal to direction vector, I THINK THIS ONE
 	#var normal = Vector3(direction_vector.z, 0, -direction_vector.x)
 	#normal.x = sign(normal.x)
 	#normal.z = sign(normal.z)
 	#3. Obtener la normal (perpendicular) al vector de dirección para definir la base de cálculo
-	var normal_vector = Vector3(direction_normalized.z, 0, -direction_normalized.x)
+	var normal_vector = Vector3(direction_normalized.y, 0, -direction_normalized.x)
 	
 	mid_point += direction * normal_vector * rotation_speed
 	return mid_point
@@ -98,12 +102,12 @@ func calculate_in_points(start_point: Vector3, mid_point: Vector3, target_point:
 	var points_in = {}
 
 	# Calcula la dirección del punto "in" del punto medio
-	var direction_to_mid = (mid_point - start_point).normalized()
+	var direction_to_mid = normalize_xz(mid_point - start_point)
 	var mid_in_point = mid_point - direction_to_mid * distance_factor
 	points_in["mid_in"] = -mid_in_point
 
 	# Calcula la dirección del punto "in" del punto objetivo
-	var direction_to_target = (target_point - mid_point).normalized()
+	var direction_to_target = normalize_xz(target_point - mid_point)
 	var target_in_point = target_point - direction_to_target * distance_factor
 	points_in["target_in"] = -target_in_point
 
