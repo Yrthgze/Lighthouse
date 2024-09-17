@@ -74,7 +74,7 @@ transform = Transform3D(1, 0, 0, 0, 1, -5.06639e-07, 0, -5.96046e-08, 1, 0.02576
 current = true
 
 [node name="Movable" type="Node3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 5)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.447, 0, 0.894)
 script = ExtResource("2_vpmt4")
 move_speed = 5.0
 
@@ -86,6 +86,7 @@ skeleton = NodePath("../..")
 
 [node name="Lighthouse" parent="Scene" instance=ExtResource("3_4w0dy")]
 unique_name_in_owner = true
+visible = false
 move_speed = 0.0
 
 [node name="SeaStaticBody" type="StaticBody3D" parent="Scene"]
@@ -99,11 +100,5 @@ shape = SubResource("BoxShape3D_w1i5n")
 
 [node name="Boat" parent="." instance=ExtResource("5_hvnmw")]
 unique_name_in_owner = true
-health = 100
-move_speed = 0.5
-rotation_speed = 2.0
-attack_damage = 10
-attack_range = 2.0
-resistance = 0.0
 
 [connection signal="input_event" from="Scene/SeaStaticBody" to="Scripting/InputManager" method="_on_sea_static_body_input_event"]

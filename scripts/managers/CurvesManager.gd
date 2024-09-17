@@ -45,15 +45,48 @@ func get_turn_direction_point(start_pos: Vector3,target_pos: Vector3) -> Vector3
 	
 	mid_point += direction * normal_vector * rotation_speed
 	return mid_point
+	
+# Función para obtener la tangente (dirección) de la curva en un punto
+func calculate_tangent(progress: float, delta_progress: float = 0.01) -> Vector3:
+	# Obtener el número total de segmentos
+	var point_count = curves_manager.curve.get_baked_points()
+	if point_count < 2:
+		return Vector3.ZERO  # No hay suficientes puntos para definir una tangente
+
+	# Convertir el progreso (0.0 a 1.0) en un índice de segmento y un valor de interpolación t
+	var segment = int(progress * (point_count - 1))
+	var t = (progress * (point_count - 1)) - segment
+
+	# Progreso un poco más adelante (mantener dentro del rango 0.0 a 1.0)
+	var next_progress = clamp(progress + delta_progress, 0.0, 1.0)
+	var next_segment = int(next_progress * (point_count - 1))
+	var next_t = (next_progress * (point_count - 1)) - next_segment
+
+	# Obtener las posiciones actuales y siguientes usando sample()
+	var current_pos = curve.sample(segment, t)
+	var next_pos = curve.sample(next_segment, next_t)
+
+	# Calcular la tangente (el vector dirección)
+	var tangent = (next_pos - current_pos).normalized()
+	
+	return tangent
 
 func advance_curve_progress(progress):
 	var last_prog_rat = curves_follower.progress_ratio
 	curves_follower.progress += progress
 	var new_prog_rat = curves_follower.progress_ratio
 	var prog_ratio = new_prog_rat - last_prog_rat
+	print(prog_ratio)
 	var rotation = curve_rotation_degrees * prog_ratio
 	follower_node.global_transform.origin = get_real_position()
-	follower_node.set_global_rotation_degrees(get_real_rotation())
+	
+	var position = curves_manager.curve.sample_baked(progress)
+	var tangente = calculate_tangent(progress)
+	
+	# Ajusta la rotación de forma suave
+	var look_at_position = position + tangente
+	follower_node.look_at(look_at_position, Vector3.UP)
+	
 	# If progress ratio does not exceed 1.0, we can progress, otherwise stop
 	if curves_follower.progress_ratio >= 1.0:
 		curves_follower.progress_ratio = 1.0
