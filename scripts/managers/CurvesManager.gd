@@ -11,7 +11,7 @@ var acceleration_duration = 4.0  # Duración en segundos para alcanzar la veloci
 var deceleration_progress = 0.25  # Distancia desde el final de la curva donde comenzará a desacelerar
 var start_time = 0.0  # Tiempo de inicio del movimiento
 var acceleration_ratio = 0.0
-var rotation_speed = 2.0
+var rotation_speed = 5.0
 var final_pos
 var curve_rotation_degrees = 0
 # Called when the node enters the scene tree for the first time.
@@ -45,47 +45,20 @@ func get_turn_direction_point(start_pos: Vector3,target_pos: Vector3) -> Vector3
 	
 	mid_point += direction * normal_vector * rotation_speed
 	return mid_point
-	
-# Función para obtener la tangente (dirección) de la curva en un punto
-func calculate_tangent(progress: float, delta_progress: float = 0.01) -> Vector3:
-	# Obtener el número total de segmentos
-	var point_count = curves_manager.curve.get_baked_points()
-	if point_count < 2:
-		return Vector3.ZERO  # No hay suficientes puntos para definir una tangente
-
-	# Convertir el progreso (0.0 a 1.0) en un índice de segmento y un valor de interpolación t
-	var segment = int(progress * (point_count - 1))
-	var t = (progress * (point_count - 1)) - segment
-
-	# Progreso un poco más adelante (mantener dentro del rango 0.0 a 1.0)
-	var next_progress = clamp(progress + delta_progress, 0.0, 1.0)
-	var next_segment = int(next_progress * (point_count - 1))
-	var next_t = (next_progress * (point_count - 1)) - next_segment
-
-	# Obtener las posiciones actuales y siguientes usando sample()
-	var current_pos = curve.sample(segment, t)
-	var next_pos = curve.sample(next_segment, next_t)
-
-	# Calcular la tangente (el vector dirección)
-	var tangent = (next_pos - current_pos).normalized()
-	
-	return tangent
 
 func advance_curve_progress(progress):
 	var last_prog_rat = curves_follower.progress_ratio
 	curves_follower.progress += progress
 	var new_prog_rat = curves_follower.progress_ratio
 	var prog_ratio = new_prog_rat - last_prog_rat
-	print(prog_ratio)
+
 	var rotation = curve_rotation_degrees * prog_ratio
 	follower_node.global_transform.origin = get_real_position()
 	
 	var position = curves_manager.curve.sample_baked(progress)
-	var tangente = calculate_tangent(progress)
 	
 	# Ajusta la rotación de forma suave
-	var look_at_position = position + tangente
-	follower_node.look_at(look_at_position, Vector3.UP)
+	follower_node.rotation.y = curves_follower.rotation.y
 	
 	# If progress ratio does not exceed 1.0, we can progress, otherwise stop
 	if curves_follower.progress_ratio >= 1.0:
@@ -96,14 +69,12 @@ func calculate_in_points(start_point: Vector3, mid_point: Vector3, target_point:
 	var points_in = {}
 
 	# Calcula la dirección del punto "in" del punto medio
-	var direction_to_mid = Utils.normalize_xz(mid_point - start_point)
-	var mid_in_point = mid_point - direction_to_mid * distance_factor
-	points_in["mid_in"] = -mid_in_point
+	var direction_to_mid = Utils.normalize_xz(target_point - start_point)
+	points_in["mid_in"] = -direction_to_mid
 
 	# Calcula la dirección del punto "in" del punto objetivo
-	var direction_to_target = Utils.normalize_xz(target_point - mid_point)
-	var target_in_point = target_point - direction_to_target * distance_factor
-	points_in["target_in"] = -target_in_point
+	var looking_at = Utils.get_looking_at(curves_follower)
+	points_in["target_in"] = -Vector3(looking_at.z, 0, looking_at.x)
 
 	return points_in
 
@@ -124,7 +95,7 @@ func set_target_position(new_follower_node: Node3D, target_pos: Vector3):
 		# Limpiar y añadir nuevos puntos a la curva
 		curves_manager.curve.clear_points()
 		curves_manager.curve.add_point(start_pos)
-		curves_manager.curve.add_point(middle_pos)#, points_in["mid_in"])
+		curves_manager.curve.add_point(middle_pos, points_in["mid_in"])
 		curves_manager.curve.add_point(target_pos)#, points_in["target_in"])
 		
 		calculate_rotation_degrees(Utils.get_xz(start_pos), Utils.get_looking_at(curves_follower, Utils.MODE.TWOD), Utils.get_xz(target_pos))
@@ -132,4 +103,4 @@ func set_target_position(new_follower_node: Node3D, target_pos: Vector3):
 		curves_follower.loop = false
 		curves_follower.progress = 0 # Reinicia el offset para empezar el movimiento
 		
-		%curveVisualizer.set_path(curves_manager)
+		#%curveVisualizer.set_path(curves_manager)

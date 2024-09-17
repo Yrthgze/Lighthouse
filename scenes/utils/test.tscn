@@ -1,9 +1,9 @@
 [gd_scene load_steps=3 format=3 uid="uid://dgjux8lno0oh8"]
 
 [sub_resource type="Curve3D" id="Curve3D_gxmcq"]
-bake_interval = 72.31
+bake_interval = 94.9
 _data = {
-"points": PackedVector3Array(0, 0, 0, 0, 0, 0, 0, 0, 0, -3.05031, -0.124312, -0.0235248, 3.05031, 0.124312, 0.0235248, 2, 0, 4, 0, 0, 0, 0, 0, 0, 6, 0, 6),
+"points": PackedVector3Array(0, 0, 0, 0, 0, 8, 0, 0, 0, -12, 0, -12, 0, 0, 0, 4, 0, 8, -8, 0, 0, -2.70489, -1.11178, 0.430305, 12, 0, 12),
 "tilts": PackedFloat32Array(0, 0, 0)
 }
 point_count = 3
@@ -16,8 +16,7 @@ point_count = 3
 curve = SubResource("Curve3D_gxmcq")
 
 [node name="PathFollow3D" type="PathFollow3D" parent="Path3D"]
-transform = Transform3D(0.688945, 0, 0.724795, 0, 0.999987, 0, -0.724796, 0, 0.688944, 2.25977, 0, 4.23019)
-progress = 4.82454
+transform = Transform3D(0.999926, 0, 0, 0, 0.99998, 0, 0, 0, 0.999929, 0, 0, 0)
 rotation_mode = 2
 use_model_front = true
 loop = false
