@@ -18,7 +18,7 @@ func _ready():
 	material.emission_enabled = true
 	material.emission = Color(0.2, 0.8, 1.0)  # Color de emisión
 	material.emission_energy = 1.5  # Intensidad del resplandor
-	mesh.material_override = material
+	#mesh.material_override = material
 
 	visible = false  # Ocultar el efecto al inicio
 
