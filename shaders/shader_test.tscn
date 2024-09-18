@@ -1,0 +1,11 @@
+[gd_scene load_steps=3 format=3 uid="uid://cwkrs487gkwf6"]
+
+[ext_resource type="Material" uid="uid://b55d8x3i5d75f" path="res://shaders/TestShaderMaterial.tres" id="1_x0ft3"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_0wxiv"]
+material = ExtResource("1_x0ft3")
+
+[node name="Node3D" type="Node3D"]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+mesh = SubResource("BoxMesh_0wxiv")
