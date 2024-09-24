@@ -8,9 +8,11 @@ uniform float u_time;
 
 // Plot a line on Y using a value between 0.0-1.0
 float plot(vec2 st) {    
-    // In Y=X line, the abs return 0, but in the rest it returns some postive value
-    //
-    return smoothstep(0.02, 0.0, abs(st.y - st.x));
+    // In Y=X line, the abs return 0, and therefore, the smoothstep returns 1.0
+    //but in the rest it returns some postive value, and therefore something. 
+    //the difference between first and second parameters determines the diffusion
+    // if a > b, a determines the line width
+    return smoothstep(0.5, 0.00, abs(st.y - st.x));
 }
 
 void main() {
@@ -23,6 +25,9 @@ void main() {
 
     // Plot a line
     float pct = plot(st);
+    // in the line, pct=0=> color = 1*color + 0*red
+    //Here it is adding the wave of the color gradient base (substracting the pct)
+    // and then adding the wave of the pct itself.
     color = (1.0-pct)*color+pct*vec3(1.0, 0.0, 0.0);
 
 	gl_FragColor = vec4(color,1.0);
