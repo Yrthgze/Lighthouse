@@ -11,5 +11,6 @@ vec4 red_color(){
 }
 
 void main() {
-	gl_FragColor = red_color();
+	vec2 st = gl_FragCoord.xy/u_resolution;
+	gl_FragColor = vec4(st.x,st.y,st.y,1.0);
 }
