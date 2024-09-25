@@ -21,7 +21,7 @@ void main() {
     float y = st.x;
 
     //Each point will have a (x, x, x) color -> the gradient from black to white
-    vec3 color = vec3(y);
+    vec3 color = vec3(sin(y+u_time*2.0));
 
     // Plot a line
     float pct = plot(st);
