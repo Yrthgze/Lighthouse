@@ -1,0 +1,15 @@
+[gd_scene load_steps=5 format=3 uid="uid://ddq64h3c2p4m0"]
+
+[ext_resource type="Shader" uid="uid://gjuifdv7qv4y" path="res://PerlinNoise.tres" id="1_yjdcy"]
+[ext_resource type="Texture2D" uid="uid://cq85ab1bm87me" path="res://icon.svg" id="2_5tmqa"]
+[ext_resource type="Script" path="res://perlin_noise_3d.gd" id="3_ddftl"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_t3msr"]
+shader = ExtResource("1_yjdcy")
+
+[node name="PerlinNoise" type="Node2D"]
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+material = SubResource("ShaderMaterial_t3msr")
+texture = ExtResource("2_5tmqa")
+script = ExtResource("3_ddftl")

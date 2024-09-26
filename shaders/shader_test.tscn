@@ -1,11 +1,24 @@
-[gd_scene load_steps=3 format=3 uid="uid://cwkrs487gkwf6"]
+[gd_scene load_steps=4 format=3 uid="uid://cwkrs487gkwf6"]
 
-[ext_resource type="Material" uid="uid://b55d8x3i5d75f" path="res://shaders/TestShaderMaterial.tres" id="1_x0ft3"]
+[ext_resource type="Shader" uid="uid://drcnw7f1qeroj" path="res://shaders/dissolve.tres" id="1_o8rdu"]
 
-[sub_resource type="BoxMesh" id="BoxMesh_0wxiv"]
-material = ExtResource("1_x0ft3")
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_qgp6d"]
+render_priority = 0
+shader = ExtResource("1_o8rdu")
+shader_parameter/Base_Color = Color(1, 1, 1, 1)
+shader_parameter/DissolveHeight = 0.03
+shader_parameter/NoiseScale = 0.08
+shader_parameter/Noise_Size = 35.285
+shader_parameter/GlowThickness = 0.05
+shader_parameter/EdgeColor = Color(0, 0, 5, 1)
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_txevu"]
+top_radius = 0.2
+bottom_radius = 0.2
 
 [node name="Node3D" type="Node3D"]
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
-mesh = SubResource("BoxMesh_0wxiv")
+transform = Transform3D(1, 0, 0, 0, 0.0835157, 0, 0, 0, 1, 0.0553769, -0.0140468, 0.181059)
+material_override = SubResource("ShaderMaterial_qgp6d")
+mesh = SubResource("CylinderMesh_txevu")
