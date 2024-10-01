@@ -47,6 +47,7 @@ float blinnWyvillCosineApproximation (float x){
 void main() {
 	vec2 st = gl_FragCoord.xy/u_resolution;
 
+
     float y = doubleCubicSeat(st.x, 0.7, 0.95);
 
     //Each point will have a (x, x, x) color -> the gradient from black to white
